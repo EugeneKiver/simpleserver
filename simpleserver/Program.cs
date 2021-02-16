@@ -43,7 +43,7 @@ namespace simpleserver
             PennyFarthing funbike = new PennyFarthing(1, 10);
             Console.WriteLine("funbike info: " + funbike.Info());
 
-            Console.Read();
+            //Console.Read();
             
             OtherInterestingFeatures();
         }
@@ -197,7 +197,6 @@ namespace simpleserver
             try
             {
                 var funBike = PennyFarthing.CreateWithGears(6);
-
                 // will no longer execute because CreateWithGears throws an exception
                 string some = "";
                 if (true) some = null;
@@ -209,7 +208,7 @@ namespace simpleserver
             }
             catch (Exception ex) // catch all other exceptions
             {
-                throw new ApplicationException("It hit the fan", ex);
+                //throw new ApplicationException("It hit the fan", ex);
                 // throw; // A rethrow that preserves the callstack
             }
             // catch { } // catch-all without capturing the Exception
@@ -260,14 +259,30 @@ namespace simpleserver
             // IQUERYABLE<T> - almost all collections implement this, which gives you a lot of
             // very useful Map / Filter / Reduce style methods
             var bikes = new List<Bicycle>();
+            
+            /*
+             * this.Gear = 1; // you can access members of the object with the keyword this
+             * Cadence = 50;  // but you don't always need it
+             * _speed = 5;
+             * Name = "Bontrager";
+             * Brand = BikeBrand.AIST;
+             * BicyclesCreated++;
+             */
+            bikes.Add(new Bicycle(5, 1, Bicycle.BikeBrand.Electra));
+            bikes.Add(new Bicycle(5, 2, Bicycle.BikeBrand.Gitane));
+            bikes.Add(new Bicycle(5, 3, Bicycle.BikeBrand.BMC));
+            Console.Write("bikes[1].Brand " + bikes[1].Brand + "\n");
             bikes.Sort(); // Sorts the array
-            bikes.Sort((b1, b2) => b1.Wheels.CompareTo(b2.Wheels)); // Sorts based on wheels
-            var result = bikes
-                .Where(b => b.Wheels > 3) // Filters - chainable (returns IQueryable of previous type)
-                .Where(b => b.IsBroken && b.HasTassles)
-                .Select(b => b.ToString()); // Map - we only this selects, so result is a IQueryable<string>
+            Console.Write("bikes[1].Brand " + bikes[1].Brand + "\n");
 
-            var sum = bikes.Sum(b => b.Wheels); // Reduce - sums all the wheels in the collection
+            bikes.Sort((b1, b2) => b1.Brand.CompareTo(b2.Brand)); // Sorts based on wheels
+            var result = bikes
+                .Where(b => b.Brand == Bicycle.BikeBrand.BMC) // Filters - chainable (returns IQueryable of previous type)
+                .Where(b => !b.IsBroken && !b.HasTassles)
+                .Select(b => b.ToString()); // Map - we only this selects, so result is a IQueryable<string>
+            foreach (string bike in result) Console.Write("Bike " + bike);
+
+                var sum = bikes.Sum(b => b.Wheels); // Reduce - sums all the wheels in the collection
 
             // Create a list of IMPLICIT objects based on some parameters of the bike
             var bikeSummaries = bikes.Select(b => new { Name = b.Name, IsAwesome = !b.IsBroken && b.HasTassles });
