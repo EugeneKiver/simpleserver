@@ -20,7 +20,6 @@ namespace simpleserver
 {
     // Each .cs file should at least contain a class with the same name as the file.
     // You're allowed to do otherwise, but shouldn't for sanity.
-    
     public class Simpleserver
     {
         ///////////////////////////////////////
@@ -45,14 +44,9 @@ namespace simpleserver
             Console.WriteLine("funbike info: " + funbike.Info());
 
             Console.Read();
-        } // End main method
-
-        // CONSOLE ENTRY - A console application must have a main method as an entry point
-        
-        /*public static void Main(string[] args)
-        {
+            
             OtherInterestingFeatures();
-        }*/
+        }
 
         //
         // INTERESTING FEATURES
@@ -119,13 +113,15 @@ namespace simpleserver
         public static IEnumerable<int> YieldCounter(int limit = 10)
         {
             for (var i = 0; i < limit; i++)
+            {
                 yield return i;
+            }
         }
 
         // which you would call like this :
         public static void PrintYieldCounterToConsole()
         {
-            foreach (var counter in YieldCounter())
+            foreach (var counter in ManyYieldCounter())
                 Console.WriteLine(counter);
         }
 
@@ -343,7 +339,7 @@ namespace simpleserver
         // Create an event with the delegate type
         public static event IncrementDelegate MyEvent;
 
-        /*static void Main(string[] args)
+        static void Main(string[] args)
         {
             // Refer to the Increment method by instantiating the delegate
             // and passing the method itself in as an argument
@@ -366,7 +362,7 @@ namespace simpleserver
             // Trigger the event
             // ie. run all delegates subscribed to this event
             Console.WriteLine(MyEvent());  // => 6
-        }*/
+        }
     }
 
 
@@ -591,7 +587,7 @@ namespace simpleserver
             }
             set
             {
-                throw new InvalidOperationException("You can't change gears on a PennyFarthing");
+                //throw new InvalidOperationException("You can't change gears on a PennyFarthing");
             }
         }
 
@@ -675,16 +671,6 @@ namespace simpleserver
         }
     }
 
-    // Program using the partial class "A"
-    /*public class Program
-    {
-        static void Main()
-        {
-            A.A1();
-            A.A2();
-        }
-    }*/
-
     // String interpolation by prefixing the string with $
     // and wrapping the expression you want to interpolate with { braces }
     // You can also combine both interpolated and verbatim strings with $@
@@ -694,7 +680,7 @@ namespace simpleserver
         public int Width { get; set; }
     }
 
-    class Program
+    /*public*/ class Program
     {
         static void Main(string[] args)
         {
@@ -704,6 +690,14 @@ namespace simpleserver
             string username = "User";
             Console.WriteLine($@"C:\Users\{username}\Desktop");
             Console.WriteLine("Hello world");
+            
+            // Program using the partial class "A"
+            //A.A1();
+            //A.A2();
+            //Simpleserver.PrintYieldCounterToConsole();
+            
+            Simpleserver.Classes();
+
         }
     }
 /*
