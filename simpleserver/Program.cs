@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 // But this one is not:
 //using System.Data.Entity;
@@ -158,7 +159,7 @@ namespace simpleserver
             // EXTENSION METHODS
             int i = 3;
             i.Print(); // Defined below
-
+            
             // NULLABLE TYPES - great for database interaction / return values
             // any value type (i.e. not a class) can be made nullable by suffixing a ?
             // <type>? <var name> = <value>
@@ -271,18 +272,23 @@ namespace simpleserver
             bikes.Add(new Bicycle(5, 1, Bicycle.BikeBrand.Electra));
             bikes.Add(new Bicycle(5, 2, Bicycle.BikeBrand.Gitane));
             bikes.Add(new Bicycle(5, 3, Bicycle.BikeBrand.BMC));
-            Console.Write("bikes[1].Brand " + bikes[1].Brand + "\n");
-            bikes.Sort(); // Sorts the array
-            Console.Write("bikes[1].Brand " + bikes[1].Brand + "\n");
+            //Console.Write("bikes[1].Brand l.274 " + bikes[1].Brand + "\n");
+            //bikes.Sort(); // Sorts the array
+            //Console.Write("bikes[1].Brand l.276 " + bikes[1].Brand + "\n");
 
-            bikes.Sort((b1, b2) => b1.Brand.CompareTo(b2.Brand)); // Sorts based on wheels
+            bikes.Sort((b1, b2) => b1.Brand.CompareTo(b2.Brand)); // Sorts based on brand
+            //Console.Write("bikes[1].Brand l.279 " + bikes[1].Brand + "\n");
             var result = bikes
                 .Where(b => b.Brand == Bicycle.BikeBrand.BMC) // Filters - chainable (returns IQueryable of previous type)
                 .Where(b => !b.IsBroken && !b.HasTassles)
                 .Select(b => b.ToString()); // Map - we only this selects, so result is a IQueryable<string>
-            foreach (string bike in result) Console.Write("Bike " + bike);
+            //Console.Write("bikes[1].Brand l.284 " + bikes[1].Brand + "\n");
 
-                var sum = bikes.Sum(b => b.Wheels); // Reduce - sums all the wheels in the collection
+            //foreach (Bicycle bike in result) {Console.Write("Bike " + bike);}
+
+            //var sum = bikes.Sum(b => b.Wheels); // Reduce - sums all the wheels in the collection
+                
+            //Console.Write("bikes[1].Brand l.290 " + bikes[1].Brand + "\n");
 
             // Create a list of IMPLICIT objects based on some parameters of the bike
             var bikeSummaries = bikes.Select(b => new { Name = b.Name, IsAwesome = !b.IsBroken && b.HasTassles });
@@ -290,6 +296,7 @@ namespace simpleserver
             // out the types above!
             foreach (var bikeSummary in bikeSummaries.Where(b => b.IsAwesome))
                 Console.WriteLine(bikeSummary.Name);
+            //Console.Write("bikes[1].Brand l.298 " + bikes[1].Brand + "\n");
 
             // ASPARALLEL
             // And this is where things get wicked - combine linq and parallel operations
@@ -300,7 +307,10 @@ namespace simpleserver
 
             // LINQ - maps a store to IQueryable<T> objects, with delayed execution
             // e.g. LinqToSql - maps to a database, LinqToXml maps to an xml document
-            var db = new BikeRepository();
+            
+            /* Working with db will be better to learn with separate db tutor
+            
+             var db = new BikeRepository();
 
             // execution is delayed, which is great when querying a database
             var filter = db.Bikes.Where(b => b.HasTassles); // no query run
@@ -315,7 +325,7 @@ namespace simpleserver
             // Now the query runs, but opens a reader, so only populates as you iterate through
             foreach (string bike in query)
                 Console.WriteLine(result);
-
+            */
 
 
         }
@@ -354,7 +364,7 @@ namespace simpleserver
         // Create an event with the delegate type
         public static event IncrementDelegate MyEvent;
 
-        static void Main(string[] args)
+        public static void NotMain(string[] args)
         {
             // Refer to the Increment method by instantiating the delegate
             // and passing the method itself in as an argument
@@ -712,6 +722,8 @@ namespace simpleserver
             //Simpleserver.PrintYieldCounterToConsole();
             
             Simpleserver.Classes();
+            DelegateTest delegateTest = new DelegateTest();
+            DelegateTest.NotMain(new string[]{ "a", "b", "c" });
 
         }
     }
